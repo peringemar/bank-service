@@ -5,9 +5,9 @@ import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import se.trefjorton.bank.api.AccountResource;
-import se.trefjorton.bank.core.Account;
 import se.trefjorton.bank.db.AccountRepository;
-import se.trefjorton.bank.health.ApplicationHealthCheck;
+import se.trefjorton.bank.domain.Account;
+import se.trefjorton.bank.health.DummyHealthCheck;
 import se.trefjorton.bank.service.AccountService;
 
 import java.util.Collections;
@@ -43,7 +43,7 @@ public class BankApplication extends Application<BankConfiguration> {
 
         environment
                 .healthChecks()
-                .register("application", new ApplicationHealthCheck());
+                .register("dummy", new DummyHealthCheck());
     }
 
 
