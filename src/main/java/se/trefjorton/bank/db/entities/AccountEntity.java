@@ -1,10 +1,10 @@
-package se.trefjorton.bank.core;
+package se.trefjorton.bank.db.entities;
 
-public class Account {
+public class AccountEntity {
     private final Long id;
     private final String name;
 
-    public Account(Long id, String name) {
+    public AccountEntity(Long id, String name) {
         this.id = id;
         this.name = name;
     }
