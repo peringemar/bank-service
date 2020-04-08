@@ -2,21 +2,20 @@ package se.trefjorton.bank;
 
 import io.dropwizard.Application;
 import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import se.trefjorton.bank.api.AccountResource;
+import se.trefjorton.bank.db.dao.AccountDAO;
 import se.trefjorton.bank.db.entities.AccountEntity;
-import se.trefjorton.bank.db.repositories.AccountRepository;
 import se.trefjorton.bank.health.DummyHealthCheck;
 import se.trefjorton.bank.service.AccountService;
 
-import java.util.Collections;
-import java.util.List;
-
-public class BankApplication extends Application<BankConfiguration> {
+public class DwApplication extends Application<DwConfiguration> {
 
     public static void main(final String[] args) throws Exception {
-        new BankApplication().run("server", "config.yml");
+        new DwApplication().run("server", "config.yml");
     }
 
     @Override
@@ -25,16 +24,18 @@ public class BankApplication extends Application<BankConfiguration> {
     }
 
     @Override
-    public void initialize(Bootstrap<BankConfiguration> bootstrap) {
+    public void initialize(Bootstrap<DwConfiguration> bootstrap) {
         bootstrap.setConfigurationSourceProvider(new ResourceConfigurationSourceProvider());
+        bootstrap.addBundle(hibernate);
+
         super.initialize(bootstrap);
     }
 
     @Override
-    public void run(BankConfiguration configuration,
+    public void run(DwConfiguration configuration,
                     Environment environment) {
-        AccountRepository accountRepository = new AccountRepository(initAccounts());
-        AccountService accountService = new AccountService(accountRepository);
+        AccountDAO accountDAO = new AccountDAO(hibernate.getSessionFactory());
+        AccountService accountService = new AccountService(accountDAO);
         AccountResource accountResource = new AccountResource(accountService);
 
         environment
@@ -46,8 +47,10 @@ public class BankApplication extends Application<BankConfiguration> {
                 .register("dummy", new DummyHealthCheck());
     }
 
-
-    private List<AccountEntity> initAccounts() {
-        return Collections.singletonList(new AccountEntity(1337L, "Perry"));
-    }
+    private final HibernateBundle<DwConfiguration> hibernate = new HibernateBundle<>(AccountEntity.class) {
+        @Override
+        public DataSourceFactory getDataSourceFactory(DwConfiguration configuration) {
+            return configuration.getDataSourceFactory();
+        }
+    };
 }

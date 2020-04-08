@@ -1,7 +1,8 @@
 package se.trefjorton.bank.api;
 
 
-import se.trefjorton.bank.domain.Account;
+import io.dropwizard.hibernate.UnitOfWork;
+import se.trefjorton.bank.model.Account;
 import se.trefjorton.bank.service.AccountService;
 
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ public class AccountResource {
 
     @GET
     @Path("/{id}")
+    @UnitOfWork(readOnly = true)
     public Account getById(@PathParam("id") Long id) {
         return accountService
                 .findById(id);

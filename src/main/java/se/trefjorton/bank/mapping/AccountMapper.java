@@ -3,7 +3,7 @@ package se.trefjorton.bank.mapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import se.trefjorton.bank.db.entities.AccountEntity;
-import se.trefjorton.bank.domain.Account;
+import se.trefjorton.bank.model.Account;
 
 @Mapper
 public interface AccountMapper {

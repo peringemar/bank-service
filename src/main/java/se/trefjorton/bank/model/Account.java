@@ -1,7 +1,10 @@
-package se.trefjorton.bank.domain;
+package se.trefjorton.bank.model;
+
+import java.util.UUID;
 
 public class Account {
     private Long id;
+    private UUID accountNumber;
     private String name;
 
     public Long getId() {
@@ -10,6 +13,14 @@ public class Account {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public UUID getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(UUID accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public String getName() {

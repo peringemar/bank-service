@@ -1,17 +1,17 @@
 package se.trefjorton.bank.service;
 
-import se.trefjorton.bank.db.repositories.AccountRepository;
-import se.trefjorton.bank.domain.Account;
+import se.trefjorton.bank.db.dao.AccountDAO;
 import se.trefjorton.bank.mapping.AccountMapper;
+import se.trefjorton.bank.model.Account;
 
 public class AccountService {
-    private final AccountRepository accountRepository;
+    private final AccountDAO accountDAO;
 
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public AccountService(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
     }
 
     public Account findById(Long id) {
-        return AccountMapper.INSTANCE.fromEntity(accountRepository.findById(id));
+        return AccountMapper.INSTANCE.fromEntity(accountDAO.findById(id));
     }
 }
