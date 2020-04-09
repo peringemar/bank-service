@@ -7,6 +7,15 @@ public class Account {
     private UUID accountNumber;
     private String name;
 
+    public Account() {
+    }
+
+    public Account(Long id, UUID accountNumber, String name) {
+        this.id = id;
+        this.accountNumber = accountNumber;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

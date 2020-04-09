@@ -2,6 +2,7 @@ package se.trefjorton.bank.api;
 
 
 import io.dropwizard.hibernate.UnitOfWork;
+import org.eclipse.jetty.http.HttpStatus;
 import se.trefjorton.bank.model.Account;
 import se.trefjorton.bank.service.AccountService;
 
@@ -10,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 @Path("/accounts")
@@ -26,8 +28,12 @@ public class AccountResource {
     @Path("/{id}")
     @UnitOfWork(readOnly = true)
     public Account getById(@PathParam("id") Long id) {
-        return accountService
-                .findById(id);
-        // .orElseThrow(AccountNotFoundException::new);
+        Account account = accountService.findById(id);
+
+        if (account != null) {
+            return account;
+        } else {
+            throw new WebApplicationException(HttpStatus.NOT_FOUND_404);
+        }
     }
 }
