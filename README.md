@@ -1,2 +1,2 @@
 # bank-service
-Sample app for learning dropwizard
+Simple app for learning dropwizard
