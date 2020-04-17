@@ -6,6 +6,7 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.junit.ClassRule;
 import org.junit.Test;
 import se.trefjorton.bank.model.Account;
+import se.trefjorton.bank.resources.AccountResource;
 import se.trefjorton.bank.service.AccountService;
 
 import javax.ws.rs.core.Response;

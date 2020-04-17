@@ -6,10 +6,12 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import se.trefjorton.bank.api.AccountResource;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import se.trefjorton.bank.db.dao.AccountDAO;
 import se.trefjorton.bank.db.entities.AccountEntity;
 import se.trefjorton.bank.health.DummyHealthCheck;
+import se.trefjorton.bank.resources.AccountResource;
 import se.trefjorton.bank.service.AccountService;
 
 public class DwApplication extends Application<DwConfiguration> {
@@ -27,13 +29,18 @@ public class DwApplication extends Application<DwConfiguration> {
     public void initialize(Bootstrap<DwConfiguration> bootstrap) {
         bootstrap.setConfigurationSourceProvider(new ResourceConfigurationSourceProvider());
         bootstrap.addBundle(hibernate);
+        bootstrap.addBundle(new SwaggerBundle<>() {
+            @Override
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DwConfiguration configuration) {
+                return configuration.swaggerBundleConfiguration;
+            }
+        });
 
         super.initialize(bootstrap);
     }
 
     @Override
-    public void run(DwConfiguration configuration,
-                    Environment environment) {
+    public void run(DwConfiguration configuration, Environment environment) {
         AccountDAO accountDAO = new AccountDAO(hibernate.getSessionFactory());
         AccountService accountService = new AccountService(accountDAO);
         AccountResource accountResource = new AccountResource(accountService);

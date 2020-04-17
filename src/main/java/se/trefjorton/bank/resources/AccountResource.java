@@ -1,7 +1,9 @@
-package se.trefjorton.bank.api;
+package se.trefjorton.bank.resources;
 
 
 import io.dropwizard.hibernate.UnitOfWork;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.eclipse.jetty.http.HttpStatus;
 import se.trefjorton.bank.model.Account;
 import se.trefjorton.bank.service.AccountService;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/accounts")
 @Produces(MediaType.APPLICATION_JSON)
+@Api(value = "/accounts", tags = "Accounts", produces = MediaType.APPLICATION_JSON)
 public class AccountResource {
     private final AccountService accountService;
 
@@ -27,6 +30,7 @@ public class AccountResource {
     @GET
     @Path("/{id}")
     @UnitOfWork(readOnly = true)
+    @ApiOperation(value = "Retrieve an account by id.")
     public Account getById(@PathParam("id") Long id) {
         Account account = accountService.findById(id);
 

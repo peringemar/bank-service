@@ -30,3 +30,7 @@ database:
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
+
+# the only required property is resourcePackage, for more config options see documentation
+swagger:
+  resourcePackage: se.trefjorton.bank.resources
