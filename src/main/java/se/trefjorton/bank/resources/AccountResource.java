@@ -1,20 +1,17 @@
 package se.trefjorton.bank.resources;
 
-
 import io.dropwizard.hibernate.UnitOfWork;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.eclipse.jetty.http.HttpStatus;
-import se.trefjorton.bank.model.Account;
-import se.trefjorton.bank.service.AccountService;
-
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import org.eclipse.jetty.http.HttpStatus;
+import se.trefjorton.bank.model.Account;
+import se.trefjorton.bank.service.AccountService;
 
 @Path("/accounts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,7 +19,6 @@ import javax.ws.rs.core.MediaType;
 public class AccountResource {
     private final AccountService accountService;
 
-    @Inject
     public AccountResource(AccountService accountService) {
         this.accountService = accountService;
     }
